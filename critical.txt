@@ -1,0 +1,10 @@
+Here are the critical problems causing lag and potential crashes in your rover project:1-Second Polling Delay:
+ The web dashboard requests telemetry updates only once every second (setInterval at 1000ms), making the radar and distance readouts blind to fast changes.  
+
+ Blocking Ultrasonic Scans: The ultrasonic_ranging() function uses hardcoded delay(500) and delay(200) pauses to move the servo and wait for echoes, freezing code execution for nearly 2 seconds per scan.  
+
+ Lack of Local Emergency Stop: In manual mode, the rover relies entirely on the web browser and human reflexes to stop when an object gets too close (<10 cm), meaning it will crash if network latency or polling lags.   
+
+Autonomous Mode Lockouts: While running autonomous loops (ObstacleAvoidance() or LineTracking()), the rover blocks manual keyboard or pad inputs via driveOK(), making manual controls unresponsive until the mode is explicitly stopped.   
+
+Automatic Halt when the distance is less than 15 cm : The system currently focuses on human reflexes to halt.
